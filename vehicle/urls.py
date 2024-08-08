@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path
 
 from vehicle.views import CarViewSet, MotoCreateAPIView, MotoListAPIView, MotoRetrieveAPIView, MotoUpdateAPIView, \
-    MotoDestroyAPIView, MilageCreateAPIView, MotoMillageListAPIView
+    MotoDestroyAPIView, MilageCreateAPIView, MotoMillageListAPIView, MilageListAPIView
 
 app_name = VehicleConfig.name
 
@@ -18,6 +18,7 @@ urlpatterns = [
       path('moto/delete/<int:pk>/', MotoDestroyAPIView.as_view(), name='moto-delete'),
 
       # milage
+      path('milage/', MilageListAPIView.as_view(), name='milage-list'),
       path('milage/create/', MilageCreateAPIView.as_view(), name='milage-create'),
       path('moto/milage/', MotoMillageListAPIView.as_view(), name='moto-milage'),
 
