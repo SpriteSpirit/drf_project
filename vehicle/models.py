@@ -33,8 +33,10 @@ class Moto(models.Model):
 
 
 class Milage(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, **NULLABLE)
-    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, **NULLABLE)
+    objects = models.Manager()
+
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, **NULLABLE, related_name="milage")
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, **NULLABLE, related_name="milage")
 
     milage = models.PositiveIntegerField(verbose_name="Пробег")
     year = models.PositiveSmallIntegerField(verbose_name="Год регистрации")
@@ -46,4 +48,3 @@ class Milage(models.Model):
 
     def __str__(self):
         return f"{self.moto if self.moto else self.car} {self.year} года"
-    
