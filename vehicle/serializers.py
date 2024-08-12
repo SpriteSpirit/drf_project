@@ -10,8 +10,8 @@ class MilageSerializer(serializers.ModelSerializer):
 
 
 class CarSerializer(serializers.ModelSerializer):
-    last_milage = serializers.IntegerField(source='milage_set.all.first.milage')
-    milage = MilageSerializer(source='milage_set', many=True)
+    last_milage = serializers.IntegerField(source='milage.all.first.milage')
+    milage = MilageSerializer(many=True)
 
     class Meta:
         model = Car
@@ -19,7 +19,7 @@ class CarSerializer(serializers.ModelSerializer):
 
 
 class MotoSerializer(serializers.ModelSerializer):
-    last_milage = serializers.IntegerField(source='milage_set.all.first.milage')
+    last_milage = serializers.IntegerField(source='milage.all.first.milage')
 
     class Meta:
         model = Moto
