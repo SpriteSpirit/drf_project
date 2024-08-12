@@ -47,6 +47,7 @@ class MotoMillageListAPIView(generics.ListAPIView):
 class MilageListAPIView(generics.ListAPIView):
     serializer_class = MilageSerializer
     queryset = Milage.objects.all()
+
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('moto', 'car')
     ordering_fields = ('year',)
