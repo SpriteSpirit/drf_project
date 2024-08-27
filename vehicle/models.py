@@ -11,6 +11,7 @@ class Car(models.Model):
     title = models.CharField(max_length=150, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
+    price = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Цена", default=0)
 
     class Meta:
         verbose_name = "Автомобиль"

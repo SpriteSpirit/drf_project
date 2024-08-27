@@ -8,6 +8,7 @@ from vehicle.paginators import VehiclePaginator
 from vehicle.permissions import IsOwnerOrStaff
 from vehicle.serializers import CarSerializer, MotoSerializer, MilageSerializer, MotoMilageSerializer, \
     MotoCreateSerializer
+from vehicle.tasks import check_milage
 
 
 class CarViewSet(viewsets.ModelViewSet):
@@ -49,13 +50,21 @@ class MotoDestroyAPIView(generics.DestroyAPIView):
     queryset = Moto.objects.all()
 
 
-class MilageCreateAPIView(generics.CreateAPIView):
-    serializer_class = MilageSerializer
-
-
 class MotoMillageListAPIView(generics.ListAPIView):
     serializer_class = MotoMilageSerializer
     queryset = Milage.objects.filter(moto__isnull=False)
+
+
+class MilageCreateAPIView(generics.CreateAPIView):
+    serializer_class = MilageSerializer
+
+    def perform_create(self, serializer):
+        new_milage = serializer.save()
+
+        if new_milage.car:
+            check_milage.delay(new_milage.car.id, "Car")
+        else:
+            check_milage.delay(new_milage.moto.id, "Moto")
 
 
 class MilageListAPIView(generics.ListAPIView):
